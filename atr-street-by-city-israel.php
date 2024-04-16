@@ -25,7 +25,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 function atr_street_by_city_il_assets() {
-	wp_register_script( 'custom-gallery', plugins_url( '/atr-street-by-city-israel.js' , __FILE__ ), array(), '1.0.0' );
+	wp_enqueue_script( 'atr-street-by-city-israel', plugins_url( 'atr-street-by-city-israel.js' , __FILE__ ), array(), '1.0.0' );
 
 }
 add_action( 'wp_enqueue_scripts', 'atr_street_by_city_il_assets', 20 );
+
