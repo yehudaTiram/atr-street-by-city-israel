@@ -20,6 +20,12 @@
  * Domain Path:       /languages
  */
 
+/** These fields must be present in the form.
+ * <label> בחרו עיר:
+ *   [text city-choice id:city-choice] </label>
+ * <label> בחרו רחוב:
+ * [text street-choice id:street-choice] </label>
+ */ 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
