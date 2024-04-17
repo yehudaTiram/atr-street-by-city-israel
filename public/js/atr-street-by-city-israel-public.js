@@ -20,15 +20,6 @@ const STREET_NAME_KEY = "שם_רחוב";
 const CITIES_DATA_ID = "cities-data";
 const STREETS_DATA_ID = "streets-data";
 
-window.onload = (event) => {
-  // input elements
-  const citiesInput = document.getElementById("city-choice");
-  const streetsInput = document.getElementById("street-choice");
-
-  setupInputLists(citiesInput, streetsInput);
-  createListContainers(citiesInput, streetsInput);
-  populateCitiesPopulateStreetsOnChange(citiesInput);
-};
 
 // Setup input lists
 // Add list attributes to both city-choice and streets-data fields

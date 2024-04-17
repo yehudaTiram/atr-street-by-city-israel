@@ -48,6 +48,41 @@ class Atr_Street_By_City_Israel_Public
 		$this->version = $version;
 	}
 
+	public function set_input_elements()
+	{
+		// Get the current page ID
+		$currentPageId = get_the_ID();
+		$cities_input = null;
+		$streets_input = null;
+		switch ($currentPageId) {
+			case 2263: 
+				$cities_input = 'city-choice';
+				$streets_input = 'street-choice';
+				break;
+			case 422: 
+				$cities_input = 'billing_city';
+				$streets_input = 'billing_address_1';
+				break;
+		}
+
+		// Use the $ageValue variable as needed in your plugin
+
+?>
+		<script>
+			window.onload = (event) => {
+				// input elements
+				const citiesInput = document.getElementById("<?php echo $cities_input; ?>");
+				const streetsInput = document.getElementById("<?php echo $streets_input; ?>");
+				console.log('streetsInput: ', streetsInput);
+
+				setupInputLists(citiesInput, streetsInput);
+				createListContainers(citiesInput, streetsInput);
+				populateCitiesPopulateStreetsOnChange(citiesInput);
+			};
+		</script>
+<?php
+	}
+
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
