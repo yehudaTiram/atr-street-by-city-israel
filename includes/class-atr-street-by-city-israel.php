@@ -156,7 +156,12 @@ class Atr_Street_By_City_Israel {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$plugin_settings = new Atr_Street_By_City_Israel_Admin_Settings($this->get_plugin_name(), $this->get_plugin_name(), $this->get_version());
 
+		$this->loader->add_action('admin_menu', $plugin_settings, 'add_menu_item');
+		$plugin_basename = $this->plugin_name . '/' . 'atr-street-by-city-israel.php';
+		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_settings, 'add_action_links');
+		
 	}
 
 	/**
@@ -215,5 +220,6 @@ class Atr_Street_By_City_Israel {
 	public function get_version() {
 		return $this->version;
 	}
+	
 
 }

@@ -24,7 +24,13 @@ const STREETS_DATA_ID = "streets-data";
 // Setup input lists
 // Add list attributes to both city-choice and streets-data fields
 function setupInputLists(citiesInput, streetsInput) {
+  if (!citiesInput ) {
+    return;
+  }
   citiesInput.setAttribute("list", "cities-data");
+  if (!streetsInput) {
+    return;
+  }
   streetsInput.setAttribute("list", "streets-data");
 }
 
@@ -45,6 +51,9 @@ function createListContainers(citiesInput, streetsInput) {
   citySelection.appendChild(datalistElementCities);
   citiesInput.appendChild(citySelection);
 
+  if (!streetsInput) {
+    return;
+  }
   // Create datalist elements for streets
   const streetSelection = createElement("div", {
     id: "street-selection",

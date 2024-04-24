@@ -51,7 +51,7 @@ class Atr_Street_By_City_Israel_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-
+		$this->load_dependencies();
 	}
 
 	/**
@@ -74,6 +74,23 @@ class Atr_Street_By_City_Israel_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/atr-street-by-city-israel-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Load the required dependencies for the Admin facing functionality.
+	 * Registers the admin settings and page.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function load_dependencies()
+	{
+
+		/**
+		 * The class responsible for admin settings of the
+		 * core plugin.
+		 */
+		require_once plugin_dir_path(dirname(__FILE__)) .  'admin/class-atr-street-by-city-israel-admin-settings.php';
 	}
 
 }

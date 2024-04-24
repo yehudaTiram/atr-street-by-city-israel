@@ -55,13 +55,17 @@ class Atr_Street_By_City_Israel_Public
 		$cities_input = null;
 		$streets_input = null;
 		switch ($currentPageId) {
-			case 2263: 
+			case 2263:
 				$cities_input = 'city-choice';
 				$streets_input = 'street-choice';
 				break;
-			case 422: 
+			case 422:
 				$cities_input = 'billing_city';
 				$streets_input = 'billing_address_1';
+				break;
+			default:
+				$cities_input = 'city-choice';
+				$streets_input = 'street-choice';
 				break;
 		}
 
@@ -69,16 +73,28 @@ class Atr_Street_By_City_Israel_Public
 
 ?>
 		<script>
-			window.onload = (event) => {
+			window.addEventListener("load", (event) => {
+				setCityAndStreet()
+			});
+
+			function setCityAndStreet() {
 				// input elements
 				const citiesInput = document.getElementById("<?php echo $cities_input; ?>");
 				const streetsInput = document.getElementById("<?php echo $streets_input; ?>");
-				console.log('streetsInput: ', streetsInput);
 
-				setupInputLists(citiesInput, streetsInput);
-				createListContainers(citiesInput, streetsInput);
-				populateCitiesPopulateStreetsOnChange(citiesInput);
-			};
+				if (!streetsInput) {
+					if (!citiesInput) {
+						return;
+					}
+					setupInputLists(citiesInput, '');
+					createListContainers(citiesInput, '');
+					populateCitiesPopulateStreetsOnChange(citiesInput);
+				} else {
+					setupInputLists(citiesInput, streetsInput);
+					createListContainers(citiesInput, streetsInput);
+					populateCitiesPopulateStreetsOnChange(citiesInput);
+				}
+			}
 		</script>
 <?php
 	}
