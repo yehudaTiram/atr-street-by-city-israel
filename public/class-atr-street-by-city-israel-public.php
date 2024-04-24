@@ -54,18 +54,29 @@ class Atr_Street_By_City_Israel_Public
 		$currentPageId = get_the_ID();
 		$cities_input = null;
 		$streets_input = null;
+		$options = $this->get_options();
+		if ($options) {
+			if ((isset($options['default_atr_city_input'])) && (!empty($options['default_atr_city_input']))) {
+				$default_atr_city_input = $options['default_atr_city_input'];
+			}
+			else {
+				$default_atr_city_input = 'city-choice';
+			}
+			if ((isset($options['default_atr_street_input'])) && (!empty($options['default_atr_street_input']))) {
+				$default_atr_street_input = $options['default_atr_street_input'];
+			}
+			else {
+				$default_atr_street_input = 'street-choice';
+			}
+		}
 		switch ($currentPageId) {
-			case 2263:
-				$cities_input = 'city-choice';
-				$streets_input = 'street-choice';
-				break;
 			case 422:
 				$cities_input = 'billing_city';
 				$streets_input = 'billing_address_1';
 				break;
 			default:
-				$cities_input = 'city-choice';
-				$streets_input = 'street-choice';
+				$cities_input = $default_atr_city_input;
+				$streets_input = $default_atr_street_input;
 				break;
 		}
 
@@ -97,6 +108,31 @@ class Atr_Street_By_City_Israel_Public
 			}
 		</script>
 <?php
+	}
+
+	/**
+	 * Options getter
+	 * @return array Options, either saved or default ones.
+	 */
+	public function get_options()
+	{
+
+		$options = get_option($this->plugin_name);
+		if (isset($this->settings)) {
+			if (!$options && is_array($this->settings)) {
+				$options = array();
+				foreach ($this->settings as $section => $data) {
+					foreach ($data['fields'] as $field) {
+						$options[$field['id']] = $field['default'];
+					}
+				}
+
+				add_option($this->plugin_name, $options);
+			}
+		}
+
+
+		return $options;
 	}
 
 	/**

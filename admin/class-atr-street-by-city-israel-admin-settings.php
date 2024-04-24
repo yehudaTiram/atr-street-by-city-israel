@@ -159,27 +159,29 @@ class Atr_Street_By_City_Israel_Admin_Settings
             'description'            => __('General settings', $this->textdomain),
             'fields'                => array(
                 array(
-                    'id'             => 'limit_number_of_tickets_per_event',
-                    'label'            => __('Max. ammount of ticket per event (default is 1)', $this->textdomain),
-                    'description'    => __('Set how many tickets (product) event can have.', $this->textdomain),
-                    'type' => 'number',
-                    'default' => '1',
-                    'placeholder' => '1',
+                    'id'             => 'default_atr_city_input',
+                    'label'            => __('Write default input ID for cities', $this->textdomain),
+                    'description'    => __('If you fill this, the dropdown will populate it as cities dropdown in every form that has this field ID.', $this->textdomain),
+                    'type' => 'text',
+                    'default' => '',
+                    'placeholder' => ''
                 ),
                 array(
-                    'id'             => 'add_date_time_to_ticket_title',
-                    'label'            => __('Add date and time to event title - this is mostly for dev mode', $this->textdomain),
-                    'description'    => __('Check this if you want to add date and time to event title.', $this->textdomain),
-                    'type' => 'select',
-                    'options'        => array('0' => __('No', $this->textdomain), '1' => __('Date and time', $this->textdomain), '2' => __('Date only', $this->textdomain), '3' => __('Time only', $this->textdomain)),
-                    'default' => 'off',
-                ),
+                    'id'             => 'default_atr_street_input',
+                    'label'            => __('Write default input ID for streets', $this->textdomain),
+                    'description'    => __('If you fill this, the dropdown will populate it as streets dropdown in every form that has this field ID.', $this->textdomain),
+                    'type' => 'text',
+                    'default' => '',
+                    'placeholder' => ''
+                ), 
+
                 array(
-                    'id'             => 'atr_show_development_comments',
-                    'label'            => __('Display development comments', $this->textdomain),
-                    'description'    => __('Check this if you want to show the dev comments in the front end, like the path to template etc.', $this->textdomain),
-                    'type' => 'checkbox',
-                    'default' => 'off',
+                    'id'             => 'atr_street_city_input',
+                    'label'            => __('Write page ID,cities input ID,streets input ID', $this->textdomain),
+                    'description'    => __('In each line you set the page ID and the sity and street id of the textboxes you want to have the dropdowns', $this->textdomain),
+                    'type' => 'textarea',
+                    'default' => '',
+                    'placeholder' => 'page_id,city_input_id,street_input_id'
                 ),
 
 
