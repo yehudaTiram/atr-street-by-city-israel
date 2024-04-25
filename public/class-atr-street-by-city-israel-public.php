@@ -53,21 +53,23 @@ class Atr_Street_By_City_Israel_Public
 		// Get the current page ID
 		$currentPageId = get_the_ID();
 		$cities_input = null;
-		$streets_input = null;
-		$options = $this->get_options();
+		$options = get_option($this->plugin_name);
 		if ($options) {
 			if ((isset($options['default_atr_city_input'])) && (!empty($options['default_atr_city_input']))) {
 				$default_atr_city_input = $options['default_atr_city_input'];
-			}
-			else {
+			} else {
 				$default_atr_city_input = 'city-choice';
 			}
 			if ((isset($options['default_atr_street_input'])) && (!empty($options['default_atr_street_input']))) {
 				$default_atr_street_input = $options['default_atr_street_input'];
-			}
-			else {
+			} else {
 				$default_atr_street_input = 'street-choice';
 			}
+			$parsed_street_city_settings = $this->parse_street_city_settings($options);
+			var_dump($parsed_street_city_settings);
+
+			$sample_structure = $this->populate_sample_structure($parsed_street_city_settings);
+			var_dump($sample_structure);
 		}
 		switch ($currentPageId) {
 			case 422:
@@ -79,9 +81,6 @@ class Atr_Street_By_City_Israel_Public
 				$streets_input = $default_atr_street_input;
 				break;
 		}
-
-		// Use the $ageValue variable as needed in your plugin
-
 ?>
 		<script>
 			window.addEventListener("load", (event) => {
@@ -110,29 +109,50 @@ class Atr_Street_By_City_Israel_Public
 <?php
 	}
 
-	/**
-	 * Options getter
-	 * @return array Options, either saved or default ones.
-	 */
-	public function get_options()
+	public function populate_sample_structure($parsed_settings)
 	{
+		$sample_structure = array();
+		foreach ($parsed_settings as $setting) {
+			if (!empty($setting['page_id']) && !empty($setting['city_input_id']) && !empty($setting['street_input_id'])) {
+				$sample_structure[$setting['page_id']] = array(
+					'city_dropdown' => array(
+						'input_id' => $setting['city_input_id'],
+						// Additional configuration for city dropdown (if needed)
+					),
+					'street_dropdown' => array(
+						'input_id' => $setting['street_input_id'],
+						// Additional configuration for street dropdown (if needed)
+					)
+				);
+			}
+			//if (ctype_digit($testcase)) {{}
+		}
+		return $sample_structure;
+	}
 
-		$options = get_option($this->plugin_name);
-		if (isset($this->settings)) {
-			if (!$options && is_array($this->settings)) {
-				$options = array();
-				foreach ($this->settings as $section => $data) {
-					foreach ($data['fields'] as $field) {
-						$options[$field['id']] = $field['default'];
-					}
+
+	/**
+	 * Parse the street and city settings from the admin settings
+	 * @param array $settings
+	 * @return array
+	 */
+	public function parse_street_city_settings($settings)
+	{
+		$parsed_settings = array();
+		if (isset($settings['atr_street_city_input_list']) && !empty($settings['atr_street_city_input_list'])) {
+			$lines = explode("\n", $settings['atr_street_city_input_list']);
+			foreach ($lines as $line) {
+				$values = explode(",", trim($line)); // Trim whitespace and explode by comma
+				if (count($values) === 3) { // Ensure three values
+					$parsed_settings[] = array(
+						'page_id' => $values[0],
+						'city_input_id' => $values[1],
+						'street_input_id' => $values[2]
+					);
 				}
-
-				add_option($this->plugin_name, $options);
 			}
 		}
-
-
-		return $options;
+		return $parsed_settings;
 	}
 
 	/**

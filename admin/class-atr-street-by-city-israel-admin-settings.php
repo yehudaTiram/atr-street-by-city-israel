@@ -143,8 +143,8 @@ class Atr_Street_By_City_Israel_Admin_Settings
         $links[] = '<a href="http://atarimtr.com" target="_blank">More plugins by Yehuda Tiram</a>';
         var_dump($links);
         var_dump($this->plugin_name);
-        
-        
+
+
         return $links;
     }
 
@@ -173,10 +173,10 @@ class Atr_Street_By_City_Israel_Admin_Settings
                     'type' => 'text',
                     'default' => '',
                     'placeholder' => ''
-                ), 
+                ),
 
                 array(
-                    'id'             => 'atr_street_city_input',
+                    'id'             => 'atr_street_city_input_list',
                     'label'            => __('Write page ID,cities input ID,streets input ID', $this->textdomain),
                     'description'    => __('In each line you set the page ID and the sity and street id of the textboxes you want to have the dropdowns', $this->textdomain),
                     'type' => 'textarea',
@@ -311,7 +311,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
                 break;
 
             case 'textarea':
-                $html .= '<textarea id="' . esc_attr($field['id']) . '" rows="15" cols="150" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '">' . $data . '</textarea><br/>' . "\n";
+                $html .= '<textarea id="' . esc_attr($field['id']) . '" rows="15" cols="150" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '">' . sanitize_textarea_field($data) . '</textarea><br/>' . "\n";
                 break;
 
             case 'checkbox':
@@ -429,6 +429,9 @@ class Atr_Street_By_City_Israel_Admin_Settings
      */
     public function validate_fields($data)
     {
+        if ($data['atr_street_city_input_list'] != '') {
+            $data['atr_street_city_input_list'] = sanitize_textarea_field($data['atr_street_city_input_list']);
+        }
         // $data array contains values to be saved:
         // either sanitize/modify $data or return false
         // to prevent the new options to be saved
