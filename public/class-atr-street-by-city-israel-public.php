@@ -51,36 +51,20 @@ class Atr_Street_By_City_Israel_Public
 	public function set_input_elements()
 	{
 		// Get the current page ID
-		$currentPageId = get_the_ID();
+		$currentPageId = get_queried_object_id();
 		$cities_input = null;
 		$options = get_option($this->plugin_name);
+		var_dump($options);
+		
 		if ($options) {
-			if ((isset($options['default_atr_city_input'])) && (!empty($options['default_atr_city_input']))) {
-				$default_atr_city_input = $options['default_atr_city_input'];
-			} else {
-				$default_atr_city_input = 'city-choice';
-			}
-			if ((isset($options['default_atr_street_input'])) && (!empty($options['default_atr_street_input']))) {
-				$default_atr_street_input = $options['default_atr_street_input'];
-			} else {
-				$default_atr_street_input = 'street-choice';
-			}
 			$parsed_street_city_settings = $this->parse_street_city_settings($options);
-			var_dump($parsed_street_city_settings);
-
-			$sample_structure = $this->populate_sample_structure($parsed_street_city_settings);
-			var_dump($sample_structure);
+			$inputs_structure = $this->populate_inputs_structure($parsed_street_city_settings, $currentPageId);
 		}
-		switch ($currentPageId) {
-			case 422:
-				$cities_input = 'billing_city';
-				$streets_input = 'billing_address_1';
-				break;
-			default:
-				$cities_input = $default_atr_city_input;
-				$streets_input = $default_atr_street_input;
-				break;
-		}
+		var_dump($inputs_structure);
+		// If no inputs structure found, return
+		if($inputs_structure == null){
+			return;
+		}		
 ?>
 		<script>
 			window.addEventListener("load", (event) => {
@@ -89,8 +73,8 @@ class Atr_Street_By_City_Israel_Public
 
 			function setCityAndStreet() {
 				// input elements
-				const citiesInput = document.getElementById("<?php echo $cities_input; ?>");
-				const streetsInput = document.getElementById("<?php echo $streets_input; ?>");
+				const citiesInput = document.getElementById("<?php echo $inputs_structure["city_dropdown"]["input_id"]; ?>");
+				const streetsInput = document.getElementById("<?php echo $inputs_structure["street_dropdown"]["input_id"]; ?>");
 
 				if (!streetsInput) {
 					if (!citiesInput) {
@@ -109,12 +93,13 @@ class Atr_Street_By_City_Israel_Public
 <?php
 	}
 
-	public function populate_sample_structure($parsed_settings)
+	public function populate_inputs_structure($parsed_settings, $current_page_id)
 	{
-		$sample_structure = array();
+		// Check for settings with page ID		
 		foreach ($parsed_settings as $setting) {
-			if (!empty($setting['page_id']) && !empty($setting['city_input_id']) && !empty($setting['street_input_id'])) {
-				$sample_structure[$setting['page_id']] = array(
+			// Check for matching page ID first
+			if ($setting['page_id'] == $current_page_id) {
+				return array(
 					'city_dropdown' => array(
 						'input_id' => $setting['city_input_id'],
 						// Additional configuration for city dropdown (if needed)
@@ -125,10 +110,22 @@ class Atr_Street_By_City_Israel_Public
 					)
 				);
 			}
-			//if (ctype_digit($testcase)) {{}
 		}
-		return $sample_structure;
+
+		// If no match for current page ID, check for settings without page ID
+		foreach ($parsed_settings as $setting) {
+			if (empty($setting['page_id'])) {
+				return array(
+					'city_input_id' => $setting['city_input_id'],
+					'street_input_id' => $setting['street_input_id']
+				);
+			}
+		}
+
+		// If nothing found, return null
+		return null;
 	}
+
 
 
 	/**

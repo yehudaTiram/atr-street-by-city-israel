@@ -178,7 +178,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
                 array(
                     'id'             => 'atr_street_city_input_list',
                     'label'            => __('Write page ID,cities input ID,streets input ID', $this->textdomain),
-                    'description'    => __('In each line you set the page ID and the sity and street id of the textboxes you want to have the dropdowns', $this->textdomain),
+                    'description'    => __('In each line you set the page ID and the sity and street id of the text boxes you want to have the dropdowns', $this->textdomain),
                     'type' => 'textarea',
                     'default' => '',
                     'placeholder' => 'page_id,city_input_id,street_input_id'
