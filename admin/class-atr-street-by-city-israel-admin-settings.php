@@ -162,7 +162,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
                     'id'             => 'default_atr_city_input',
                     'label'            => __('Write default input ID for cities', $this->textdomain),
                     'description'    => __('If you fill this, the dropdown will populate it as cities dropdown in every form that has this field ID.', $this->textdomain),
-                    'type' => 'text',
+                    'type' => 'textarea',
                     'default' => '',
                     'placeholder' => ''
                 ),
@@ -170,7 +170,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
                     'id'             => 'default_atr_street_input',
                     'label'            => __('Write default input ID for streets', $this->textdomain),
                     'description'    => __('If you fill this, the dropdown will populate it as streets dropdown in every form that has this field ID.', $this->textdomain),
-                    'type' => 'text',
+                    'type' => 'textarea',
                     'default' => '',
                     'placeholder' => ''
                 ),

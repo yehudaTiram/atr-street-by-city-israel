@@ -53,9 +53,7 @@ class Atr_Street_By_City_Israel_Public
 		// Get the current page ID
 		$currentPageId = get_queried_object_id();
 		$cities_input = null;
-		$options = get_option($this->plugin_name);
-		var_dump($options);
-		
+		$options = get_option($this->plugin_name);		
 		if ($options) {
 			$parsed_street_city_settings = $this->parse_street_city_settings($options);
 			$inputs_structure = $this->populate_inputs_structure($parsed_street_city_settings, $currentPageId);
