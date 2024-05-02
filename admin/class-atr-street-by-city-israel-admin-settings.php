@@ -123,14 +123,14 @@ class Atr_Street_By_City_Israel_Admin_Settings
     public function add_menu_item()
     {
         $page = add_options_page('ATR Street By City Israel', 'ATR Street By City Israel', 'manage_options', $this->plugin_name, array($this, 'settings_page'));
-        add_submenu_page(
-            'woocommerce', // The slug for this menu parent item
-            'ATR Street By City Israel Options', // The title to be displayed in the browser window for this page.
-            'ATR Street By City Israel settings', // The text to be displayed for this menu item
-            'manage_options', // Which type of users can see this menu item
-            $this->plugin_slug, // The unique ID - that is, the slug - for this menu item
-            array($this, 'settings_page') //The name of the function to call when rendering this menu's page
-        );
+        // add_submenu_page(
+        //     'woocommerce', // The slug for this menu parent item
+        //     'ATR Street By City Israel Options', // The title to be displayed in the browser window for this page.
+        //     'ATR Street By City Israel settings', // The text to be displayed for this menu item
+        //     'manage_options', // Which type of users can see this menu item
+        //     $this->plugin_slug, // The unique ID - that is, the slug - for this menu item
+        //     array($this, 'settings_page') //The name of the function to call when rendering this menu's page
+        // );
     }
     /**
      * Add settings link to plugin list table
@@ -139,12 +139,9 @@ class Atr_Street_By_City_Israel_Admin_Settings
      */
     public function add_action_links($links)
     {
+        Kint::dump( $links );//TODO: remove ALL Kint::dump
         $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=' . $this->plugin_name)) . '">' . __('Settings', $this->textdomain) . '</a>';
         $links[] = '<a href="http://atarimtr.com" target="_blank">More plugins by Yehuda Tiram</a>';
-        var_dump($links);
-        var_dump($this->plugin_name);
-
-
         return $links;
     }
 
