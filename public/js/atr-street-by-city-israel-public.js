@@ -88,7 +88,7 @@ function populateCitiesPopulateStreetsOnChange(citiesInput) {
    * (assuming there aren't more than 32,000 streets in any city)
    */
   citiesInput.addEventListener("change", (event) => {
-    console.log("cities_input changed");
+    
     populateDataList(
       STREETS_DATA_ID,
       STREETS_RESOURCE_ID,
@@ -119,8 +119,8 @@ function createElement(tagName, attributes = {}, content = "") {
  * Fetch data, parse, and populate Datalist
  */
 async function populateDataList(id, resourceId, field_name, query = {}, limit) {
-  console.log("resource_id", resourceId);
-  console.log("query", query);
+  
+  
 
   const datalistElement = document.getElementById(id);
   if (!datalistElement) {
@@ -150,7 +150,7 @@ async function populateDataList(id, resourceId, field_name, query = {}, limit) {
     const html = await parseResponse(data?.result?.records, field_name);
     datalistElement.innerHTML = html;
   } catch (error) {
-    console.error("Couldn't get list for", id, "query:", query, error);
+    
   }
 }
 
@@ -163,6 +163,6 @@ function parseResponse(records = [], field_name) {
     records
       .map((record) => `<option value="${record[field_name].trim()}">`)
       .join("\n") || "";
-  console.log("parsed", field_name, parsed, records);
+  
   return Promise.resolve(parsed);
 }

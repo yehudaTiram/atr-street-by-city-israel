@@ -53,16 +53,16 @@ class Atr_Street_By_City_Israel_Public
 		// Get the current page ID
 		$currentPageId = get_queried_object_id();
 		$cities_input = null;
-		$options = get_option($this->plugin_name);		
+		$options = get_option($this->plugin_name);
 		if ($options) {
-			$parsed_street_city_settings = $this->parse_street_city_settings($options);
+			$parsed_street_city_settings = $this->parse_street_city_settings($options); // returns array of street and city settings by page ID
 			$inputs_structure = $this->populate_inputs_structure($parsed_street_city_settings, $currentPageId);
 		}
-		var_dump($inputs_structure);
+
 		// If no inputs structure found, return
-		if($inputs_structure == null){
+		if (!$inputs_structure || empty($inputs_structure) || !isset($inputs_structure["city_input_id"]) || !$inputs_structure["city_input_id"]) {
 			return;
-		}		
+		}
 ?>
 		<script>
 			window.addEventListener("load", (event) => {
@@ -71,8 +71,8 @@ class Atr_Street_By_City_Israel_Public
 
 			function setCityAndStreet() {
 				// input elements
-				const citiesInput = document.getElementById("<?php echo $inputs_structure["city_dropdown"]["input_id"]; ?>");
-				const streetsInput = document.getElementById("<?php echo $inputs_structure["street_dropdown"]["input_id"]; ?>");
+				const citiesInput = document.getElementById("<?php echo esc_js($inputs_structure["city_input_id"]); ?>");
+				const streetsInput = document.getElementById("<?php echo esc_js($inputs_structure["street_input_id"]); ?>");
 
 				if (!streetsInput) {
 					if (!citiesInput) {
@@ -93,38 +93,28 @@ class Atr_Street_By_City_Israel_Public
 
 	public function populate_inputs_structure($parsed_settings, $current_page_id)
 	{
-		// Check for settings with page ID		
-		foreach ($parsed_settings as $setting) {
-			// Check for matching page ID first
-			if ($setting['page_id'] == $current_page_id) {
-				return array(
-					'city_dropdown' => array(
-						'input_id' => $setting['city_input_id'],
-						// Additional configuration for city dropdown (if needed)
-					),
-					'street_dropdown' => array(
-						'input_id' => $setting['street_input_id'],
-						// Additional configuration for street dropdown (if needed)
-					)
-				);
+		$filtered_ids = [];
+		foreach ($parsed_settings as $item) {
+			// Check if page_id matches current_page or is empty
+			if ($item["page_id"] == $current_page_id) {
+				$filtered_ids["city_input_id"] = $item["city_input_id"];
+				$filtered_ids["street_input_id"] = $item["street_input_id"];
+				return $filtered_ids;
 			}
 		}
-
-		// If no match for current page ID, check for settings without page ID
-		foreach ($parsed_settings as $setting) {
-			if (empty($setting['page_id'])) {
-				return array(
-					'city_input_id' => $setting['city_input_id'],
-					'street_input_id' => $setting['street_input_id']
-				);
+		foreach ($parsed_settings as $item) {
+			if ($item["page_id"]) {
+				continue; // Skip if page_id is set
+			}
+			if ($item["city_input_id"]) {
+				$filtered_ids["city_input_id"] = $item["city_input_id"];
+			}
+			if ($item["street_input_id"]) {
+				$filtered_ids["street_input_id"] = $item["street_input_id"];
 			}
 		}
-
-		// If nothing found, return null
-		return null;
+		return $filtered_ids;
 	}
-
-
 
 	/**
 	 * Parse the street and city settings from the admin settings
@@ -138,13 +128,33 @@ class Atr_Street_By_City_Israel_Public
 			$lines = explode("\n", $settings['atr_street_city_input_list']);
 			foreach ($lines as $line) {
 				$values = explode(",", trim($line)); // Trim whitespace and explode by comma
-				if (count($values) === 3) { // Ensure three values
+				if (count($values) >= 2) { // Ensure three values
 					$parsed_settings[] = array(
 						'page_id' => $values[0],
 						'city_input_id' => $values[1],
 						'street_input_id' => $values[2]
 					);
 				}
+			}
+		}
+		if (isset($settings['default_atr_city_input']) && !empty($settings['default_atr_city_input'])) {
+			$default_cities_inputs = explode(",", trim($settings['default_atr_city_input'])); // Trim whitespace and explode by comma
+			foreach ($default_cities_inputs as $default_city_input) {
+				$parsed_settings[] = array(
+					'page_id' => '',
+					'city_input_id' => $default_city_input,
+					'street_input_id' => ''
+				);
+			}
+		}
+		if (isset($settings['default_atr_street_input']) && !empty($settings['default_atr_street_input'])) {
+			$default_street_inputs = explode(",", trim($settings['default_atr_street_input'])); // Trim whitespace and explode by comma
+			foreach ($default_street_inputs as $default_street_input) {
+				$parsed_settings[] = array(
+					'page_id' => '',
+					'city_input_id' => '',
+					'street_input_id' => $default_street_input
+				);
 			}
 		}
 		return $parsed_settings;
@@ -158,7 +168,7 @@ class Atr_Street_By_City_Israel_Public
 	public function enqueue_styles()
 	{
 
-		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/atr-street-by-city-israel-public.css', array(), rand(100, 100000), 'all');
+		//wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/atr-street-by-city-israel-public.css', array(), rand(100, 100000), 'all');
 	}
 
 	/**
@@ -169,6 +179,6 @@ class Atr_Street_By_City_Israel_Public
 	public function enqueue_scripts()
 	{
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/atr-street-by-city-israel-public.js', array('jquery'), rand(100, 100000), false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/atr-street-by-city-israel-public.js', array(), $this->version, false);
 	}
 }

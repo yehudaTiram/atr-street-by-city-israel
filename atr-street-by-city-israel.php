@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       ATR Street By City Israel
  * Plugin URI:        https://atarimtr.co.il
- * Description:       Add a dropdown to select a street by city in Israel for any form with city-street (or city only) fields (Woocommerce,Contact form 7, Elementor). 
+ * Description:       Add a dropdown to select a street by city in Israel for any form with city-street (or city only) fields (Woocommerce,Contact form 7, Elementor etc). 
  * Version:           1.0.0
  * Author:            Yehuda Tiram
  * Author URI:        https://atarimtr.co.il/
@@ -28,13 +28,7 @@
  * Cities data is from https://data.gov.il/dataset/citiesandsettelments. 
  * Streets data is from https://data.gov.il/dataset/321. 
  * API documentation https://docs.ckan.org/en/latest/maintaining/datastore.html#ckanext.datastore.logic.action.datastore_search. 
- * Adapted to Contact form 7 from https://codepen.io/tombigel/pen/LYbxPRa BY Tom B https://codepen.io/tombigel */
-/** These fields must be present in the form.
- * <label> בחרו עיר:
- *   [text city-choice id:city-choice] </label>
- * <label> בחרו רחוב:
- * [text street-choice id:street-choice] </label>
- */ 
+ * The city field must be present in the form in order for the ddl to work. */ 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;

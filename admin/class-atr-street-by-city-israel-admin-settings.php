@@ -38,20 +38,11 @@ class Atr_Street_By_City_Israel_Admin_Settings
     private $version;
 
     /**
-     * The text domain of this plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $textdomain    The current version of this plugin.
-     */
-    private $textdomain;
-
-    /**
      * The slug of this plugin.
      *
      * @since    1.0.0
      * @access   private
-     * @var      string    $textdomain    The current version of this plugin.
+     * @var      string    $plugin_slug    The current version of this plugin.
      */
     private $plugin_slug;
 
@@ -93,7 +84,6 @@ class Atr_Street_By_City_Israel_Admin_Settings
         $this->file = $file;
         $this->plugin_slug = $plugin_slug;
         $this->plugin_name = $plugin_name;
-        $this->textdomain = str_replace('_', '-', $plugin_slug);
 
         // Initialise settings
         add_action('admin_init', array($this, 'init'));
@@ -122,15 +112,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
      */
     public function add_menu_item()
     {
-        $page = add_options_page('ATR Street By City Israel', 'ATR Street By City Israel', 'manage_options', $this->plugin_name, array($this, 'settings_page'));
-        // add_submenu_page(
-        //     'woocommerce', // The slug for this menu parent item
-        //     'ATR Street By City Israel Options', // The title to be displayed in the browser window for this page.
-        //     'ATR Street By City Israel settings', // The text to be displayed for this menu item
-        //     'manage_options', // Which type of users can see this menu item
-        //     $this->plugin_slug, // The unique ID - that is, the slug - for this menu item
-        //     array($this, 'settings_page') //The name of the function to call when rendering this menu's page
-        // );
+        $page = add_options_page(__('ATR Street By City Israel', 'atr-street-by-city-israel'), __('ATR Street By City Israel', 'atr-street-by-city-israel'), 'manage_options', $this->plugin_name, array($this, 'settings_page'));
     }
     /**
      * Add settings link to plugin list table
@@ -139,9 +121,8 @@ class Atr_Street_By_City_Israel_Admin_Settings
      */
     public function add_action_links($links)
     {
-        Kint::dump( $links );//TODO: remove ALL Kint::dump
-        $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=' . $this->plugin_name)) . '">' . __('Settings', $this->textdomain) . '</a>';
-        $links[] = '<a href="http://atarimtr.com" target="_blank">More plugins by Yehuda Tiram</a>';
+        $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=' . $this->plugin_name)) . '">' . __('Settings', 'atr-street-by-city-israel') . '</a>';
+        $links[] = '<a href="http://atarimtr.co.il" target="_blank">' . __('More plugins by Yehuda Tiram', 'atr-street-by-city-israel') . '</a>';
         return $links;
     }
 
@@ -152,30 +133,30 @@ class Atr_Street_By_City_Israel_Admin_Settings
     private function settings_fields()
     {
         $settings['easy'] = array(
-            'title'                    => __('General', $this->textdomain),
-            'description'            => __('General settings', $this->textdomain),
+            'title'                    => __('General', 'atr-street-by-city-israel'),
+            'description'            => __('Define fields id to have the cities and streets drop down. Note: only 1 city and 1 street field is possible in a page.', 'atr-street-by-city-israel'),
             'fields'                => array(
                 array(
                     'id'             => 'default_atr_city_input',
-                    'label'            => __('Write default input ID for cities', $this->textdomain),
-                    'description'    => __('If you fill this, the dropdown will populate it as cities dropdown in every form that has this field ID.', $this->textdomain),
-                    'type' => 'textarea',
+                    'label'            => __('Write default input ID for cities', 'atr-street-by-city-israel'),
+                    'description'    => __('If you fill this, the dropdown will populate it as cities dropdown in every form that has this field ID.', 'atr-street-by-city-israel'),
+                    'type' => 'text',
                     'default' => '',
                     'placeholder' => ''
                 ),
                 array(
                     'id'             => 'default_atr_street_input',
-                    'label'            => __('Write default input ID for streets', $this->textdomain),
-                    'description'    => __('If you fill this, the dropdown will populate it as streets dropdown in every form that has this field ID.', $this->textdomain),
-                    'type' => 'textarea',
+                    'label'            => __('Write default input ID for streets', 'atr-street-by-city-israel'),
+                    'description'    => __('If you fill this, the dropdown will populate it as streets dropdown in every form that has this field ID.', 'atr-street-by-city-israel'),
+                    'type' => 'text',
                     'default' => '',
                     'placeholder' => ''
                 ),
 
                 array(
                     'id'             => 'atr_street_city_input_list',
-                    'label'            => __('Write page ID,cities input ID,streets input ID', $this->textdomain),
-                    'description'    => __('In each line you set the page ID and the sity and street id of the text boxes you want to have the dropdowns', $this->textdomain),
+                    'label'            => __('Write page ID,cities input ID,streets input ID (comma separated). Each page in new line.', 'atr-street-by-city-israel'),
+                    'description'    => __('In each line you set the page ID and the city and street id of the text boxes you want to have the dropdowns', 'atr-street-by-city-israel'),
                     'type' => 'textarea',
                     'default' => '',
                     'placeholder' => 'page_id,city_input_id,street_input_id'
@@ -188,23 +169,6 @@ class Atr_Street_By_City_Israel_Admin_Settings
         $settings = apply_filters('plugin_settings_fields', $settings);
 
         return $settings;
-    }
-
-    public function get_product_categories()
-    {
-
-        if ($this->check_wp_version('4.5.0')) {
-            $terms = get_terms('product_cat', array(
-                'hide_empty' => false,
-            ));
-        } else {
-            $terms = get_terms(array(
-                'taxonomy' => 'product_cat',
-                'hide_empty' => false,
-                'orderby' => 'term_group',
-            ));
-        }
-        return $terms;
     }
 
     public function check_wp_version($ver_num)
@@ -276,7 +240,8 @@ class Atr_Street_By_City_Israel_Admin_Settings
     public function settings_section($section)
     {
         $html = '<p> ' . $this->settings[$section['id']]['description'] . '</p>' . "\n";
-        echo $html;
+        //echo esc_html($html);
+        echo wp_kses_post($html);
     }
 
     /**
@@ -298,125 +263,24 @@ class Atr_Street_By_City_Israel_Admin_Settings
         switch ($field['type']) {
 
             case 'text':
-            case 'password':
-            case 'number':
-                $html .= '<input id="' . esc_attr($field['id']) . '" type="' . $field['type'] . '" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '" value="' . $data . '"/>' . "\n";
-                break;
-
-            case 'text_secret':
-                $html .= '<input id="' . esc_attr($field['id']) . '" type="text" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '" value=""/>' . "\n";
+                $html .= '<input id="' . esc_attr($field['id']) . '" type="' . $field['type'] . '" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '" value="' . sanitize_text_field($data) . '"/>' . "\n";
                 break;
 
             case 'textarea':
-                $html .= '<textarea id="' . esc_attr($field['id']) . '" rows="15" cols="150" name="' . esc_attr($option_name) . '" placeholder="' . esc_attr($field['placeholder']) . '">' . sanitize_textarea_field($data) . '</textarea><br/>' . "\n";
+                $html .= '<textarea id="' . $field['id'] . '" rows="15" cols="150" name="' . $option_name . '" placeholder="' . $field['placeholder'] . '">' . $data . '</textarea><br/>' . "\n";
                 break;
 
-            case 'checkbox':
-                $checked = '';
-                if ($data && 'on' == $data) {
-                    $checked = 'checked="checked"';
-                }
-                $html .= '<input id="' . esc_attr($field['id']) . '" type="' . $field['type'] . '" name="' . esc_attr($option_name) . '" ' . $checked . '/>' . "\n";
-                break;
-
-            case 'checkbox_multi':
-                foreach ($field['options'] as $k => $v) {
-                    $checked = false;
-                    if (is_array($data) && in_array($k, $data)) {
-                        $checked = true;
-                    }
-                    $html .= '<label for="' . esc_attr($field['id'] . '_' . $k) . '"><input type="checkbox" ' . checked($checked, true, false) . ' name="' . esc_attr($option_name) . '[]" value="' . esc_attr($k) . '" id="' . esc_attr($field['id'] . '_' . $k) . '" /> ' . $v . '</label> ';
-                }
-                break;
-
-            case 'user_roles_multi':
-                global $wp_roles;
-                $all_roles = $wp_roles->roles;
-                $editable_roles = apply_filters('editable_roles', $all_roles);
-
-                foreach ($editable_roles as $k => $v) {
-                    $checked = false;
-                    if (is_array($data) && in_array($k, $data)) {
-                        $checked = true;
-                    }
-                    $html .= '<label for="' . esc_attr($field['id'] . '_' . $k) . '"><input type="checkbox" ' . checked($checked, true, false) . ' name="' . esc_attr($option_name) . '[]" value="' . esc_attr($k) . '" id="' . esc_attr($field['id'] . '_' . $k) . '" /> ' . $v['name'] . '</label> ';
-                }
-                $html .= '<br />';
-                break;
-
-            case 'radio':
-                foreach ($field['options'] as $k => $v) {
-                    $checked = false;
-                    if ($k == $data) {
-                        $checked = true;
-                    }
-                    $html .= '<label for="' . esc_attr($field['id'] . '_' . $k) . '"><input type="radio" ' . checked($checked, true, false) . ' name="' . esc_attr($option_name) . '" value="' . esc_attr($k) . '" id="' . esc_attr($field['id'] . '_' . $k) . '" /> ' . $v . '</label> ';
-                }
-                break;
-
-            case 'select':
-                $html .= '<select name="' . esc_attr($option_name) . '" id="' . esc_attr($field['id']) . '">';
-                foreach ($field['options'] as $k => $v) {
-                    $selected = false;
-                    if ($k == $data) {
-                        $selected = true;
-                    }
-                    $html .= '<option ' . selected($selected, true, false) . ' value="' . esc_attr($k) . '">' . $v . '</option>';
-                }
-                $html .= '</select> ';
-                break;
-
-            case 'select_multi':
-                $html .= '<select name="' . esc_attr($option_name) . '[]" id="' . esc_attr($field['id']) . '" multiple="multiple">';
-                foreach ($field['options'] as $k => $v) {
-                    $selected = false;
-                    if (in_array($k, $data)) {
-                        $selected = true;
-                    }
-                    $html .= '<option ' . selected($selected, true, false) . ' value="' . esc_attr($k) . '" />' . $v . '</label> ';
-                }
-                $html .= '</select> ';
-                break;
-            case 'categories_checkbox_multi_select':
-                if ($this->is_woocommerce_activated()) {
-                    foreach ($field['options'] as $k => $v) {
-                        $html .= '<input type="text" id="atrCatSearchInput"  placeholder="' . __('Search for categories...', $this->textdomain) . '" title="Type in a category name"><a href="javascript:void(0);" class="atr-cats-select-actions atr-expand-all-cats" title="Expand all categories">Expand all</a><a href="javascript:void(0);" class="atr-cats-select-actions atr-close_all-cats" title="Close all categories">Close all</a><a href="javascript:void(0);" class="atr-cats-select-actions atr-check-all-cats" title="Check all categories">Check all</a><a href="javascript:void(0);" class="atr-cats-select-actions atr-uncheck-cats" title="Uncheck all categories">Uncheck all</a>';
-                        $html .= '<ul class="atr-cat-list">';
-                        if ($v) {
-                            foreach ($v as $term_obj => $term_prop) {
-                                $checked = false;
-                                if (is_array($data) && in_array($term_prop->term_id, $data)) {
-                                    $checked = true;
-                                }
-                                $html .= '<li parent-id="' . $term_prop->parent . '" li-id="' . $term_prop->term_id . '"><label for="' . esc_attr($field['id'] . '_' . $term_prop->name) . '">';
-                                $html .= '<input class="categories-select-chkbox" type="checkbox" ' . checked($checked, true, false) . ' name="' . esc_attr($option_name) . '[]" value="' . esc_attr($term_prop->term_id) . '" id="' . esc_attr($field['id'] . '_' . $term_prop->term_id) . '" /> ';
-                                $html .= $term_prop->name . '</label></li>';
-                            }
-                        }
-
-                        $html .= '</ul>';
-                    }
-                } else {
-                    $html .= __('Please activate Woocommerce...', $this->textdomain);
-                }
-
-                break;
         }
 
         switch ($field['type']) {
-
-            case 'checkbox_multi':
-            case 'radio':
-            case 'select_multi':
-                $html .= '<br/><span class="description">' . $field['description'] . '</span>';
-                break;
-
             default:
                 $html .= '<label for="' . esc_attr($field['id']) . '"><span class="description">' . $field['description'] . '</span></label>' . "\n";
                 break;
         }
-
-        echo $html;
+        $allowed_tags = wp_kses_allowed_html('post'); // Get default allowed tags
+        $allowed_tags['input'] = array('type' => true, 'id' => true, 'name' => true, 'placeholder' => true, 'value' => true); // Add allowed attributes for input
+        $allowed_tags['textarea'] = array('type' => true, 'id' => true, 'name' => true, 'placeholder' => true, 'value' => true, 'rows' => true, 'cols' => true); // Add allowed attributes for textarea
+        echo wp_kses($html, $allowed_tags);;
     }
 
     /**
@@ -429,19 +293,6 @@ class Atr_Street_By_City_Israel_Admin_Settings
         if ($data['atr_street_city_input_list'] != '') {
             $data['atr_street_city_input_list'] = sanitize_textarea_field($data['atr_street_city_input_list']);
         }
-        // $data array contains values to be saved:
-        // either sanitize/modify $data or return false
-        // to prevent the new options to be saved
-
-        // Sanitize fields, eg. cast number field to integer
-        // $data['number_field'] = (int) $data['number_field'];
-
-        // Validate fields, eg. don't save options if the password field is empty
-        // if ( $data['password_field'] == '' ) {
-        // 	add_settings_error( $this->plugin_slug, 'no-password', __('A password is required.', $this->textdomain), 'error' );
-        // 	return false;
-        // }
-
         return $data;
     }
 
@@ -467,15 +318,15 @@ class Atr_Street_By_City_Israel_Admin_Settings
         // Build page HTML output
         // If you don't need tabbed navigation just strip out everything between the <!-- Tab navigation --> tags.
 ?>
-        <div class="wrap" id="<?php echo $this->plugin_slug; ?>">
-            <h2><?php _e('ATR Street By City Israel Settings', $this->textdomain); ?></h2>
-            <p><?php _e('Settings.', $this->textdomain); ?></p>
+        <div class="wrap" id="<?php echo esc_attr($this->plugin_slug); ?>">
+            <h2><?php esc_html_e('ATR Street By City Israel Settings', 'atr-street-by-city-israel'); ?></h2>
+            <p><?php esc_html_e('Settings.', 'atr-street-by-city-israel'); ?></p>
 
             <!-- Tab navigation starts -->
             <h2 class="nav-tab-wrapper settings-tabs hide-if-no-js">
                 <?php
                 foreach ($this->settings as $section => $data) {
-                    echo '<a href="#' . $section . '" class="nav-tab">' . $data['title'] . '</a>';
+                    echo '<a href="#' . esc_attr($section) . '" class="nav-tab">' . esc_attr($data['title']) . '</a>';
                 }
                 ?>
             </h2>
