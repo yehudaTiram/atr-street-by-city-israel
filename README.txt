@@ -10,6 +10,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Add a dropdown to select a street by city in Israel for any form with city-street (or city only) fields (Woocommerce,Contact form 7, Elementor etc). 
 
+ליצירת תיבת גלילה לבחירת עיר ואז רחובות בעיר שנבחרה בטפסים. מתאים לכל טופס. מושך נתונים מעודכנים ממאגרי המידע הממשלתיים שמעדכנים ערים ורחובות על בסיס קבוע. הקוד מושך את הנתונים און ליין ולא מכביד על האתר שלך.
+
+אפשר לראות דמו והסבר מפורט יותר כאן:
+https://atarimtr.co.il/תוסף-לתצוגת-רשימת-ערים-ורחובות-בטפסי-ו/
+
+Add a dropdown to select a street by city in Israel for any form with city-street (or city only) fields (Woocommerce,Contact form 7, Elementor etc). 
+
 == Description ==
 
 Simplify user experience in Israel with effortless and accurate address selection for your forms! This plugin adds a seamless dropdown menu to any form using city and street fields (or just city). Compatible with popular form builders like WooCommerce, Contact Form 7, Elementor, and more, it streamlines the process for users in Israel by allowing them to select streets based on their chosen city.
