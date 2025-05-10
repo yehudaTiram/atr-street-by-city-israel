@@ -48,8 +48,9 @@ function createListContainers(citiesInput, streetsInput) {
     { id: CITIES_DATA_ID },
     '<option value="">טוען רשימת ערים...</option>'
   );
-  citySelection.appendChild(datalistElementCities);
-  citiesInput.appendChild(citySelection);
+  // citySelection.appendChild(datalistElementCities);
+  // citiesInput.appendChild(citySelection);
+  citiesInput.appendChild(datalistElementCities);
 
   if (!streetsInput) {
     return;
