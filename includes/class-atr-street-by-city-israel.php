@@ -82,7 +82,7 @@ class Atr_Street_By_City_Israel {
 		}
 		$this->plugin_name = 'atr-street-by-city-israel';
 
-		$this->load_dependencies();
+		$this->atr_sbci_load_dependencies();
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
@@ -105,7 +105,7 @@ class Atr_Street_By_City_Israel {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function atr_sbci_load_dependencies() {
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
@@ -147,7 +147,7 @@ class Atr_Street_By_City_Israel {
 
 		$plugin_i18n = new Atr_Street_By_City_Israel_i18n();
 
-		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
+		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'atr_sbci_load_plugin_textdomain' );
 
 	}
 
@@ -162,13 +162,12 @@ class Atr_Street_By_City_Israel {
 
 		$plugin_admin = new Atr_Street_By_City_Israel_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_sbci_enqueue_styles' );
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_sbci_enqueue_scripts' );
 
 		$plugin_settings = new Atr_Street_By_City_Israel_Admin_Settings($this->get_plugin_name(), $this->plugin_slug, $this->get_version());
-		$this->loader->add_action('admin_menu', $plugin_settings, 'add_menu_item');
 		$plugin_basename = $this->plugin_name . '/' . 'atr-street-by-city-israel.php';
-		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_settings, 'add_action_links');
+		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_settings, 'atr_sbci_add_action_links');
 		
 	}
 
@@ -183,8 +182,8 @@ class Atr_Street_By_City_Israel {
 
 		$plugin_public = new Atr_Street_By_City_Israel_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'atr_sbci_enqueue_styles' );
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'atr_sbci_enqueue_scripts' );
 		$this->loader->add_action( 'wp_footer', $plugin_public, 'set_input_elements' );
 
 	}

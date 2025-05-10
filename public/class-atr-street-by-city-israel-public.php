@@ -165,10 +165,10 @@ class Atr_Street_By_City_Israel_Public
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles()
+	public function atr_sbci_enqueue_styles()
 	{
 
-		//wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/atr-street-by-city-israel-public.css', array(), rand(100, 100000), 'all');
+		wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/atr-street-by-city-israel-public.css', array(), rand(100, 100000), 'all');
 	}
 
 	/**
@@ -176,9 +176,9 @@ class Atr_Street_By_City_Israel_Public
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts()
+	public function atr_sbci_enqueue_scripts()
 	{
 
-		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/atr-street-by-city-israel-public.js', array(), $this->version, false);
+		wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/atr-street-by-city-israel-public.js', array(), mt_rand(100, 100000), false);
 	}
 }

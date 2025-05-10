@@ -51,7 +51,7 @@ class Atr_Street_By_City_Israel_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		$this->load_dependencies();
+		$this->atr_sbci_load_dependencies();
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Atr_Street_By_City_Israel_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function atr_sbci_enqueue_styles() {
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/atr-street-by-city-israel-admin.css', array(), $this->version, 'all' );
 
@@ -70,7 +70,7 @@ class Atr_Street_By_City_Israel_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function atr_sbci_enqueue_scripts() {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/atr-street-by-city-israel-admin.js', array( 'jquery' ), $this->version, false );
 
@@ -83,7 +83,7 @@ class Atr_Street_By_City_Israel_Admin {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies()
+	private function atr_sbci_load_dependencies()
 	{
 
 		/**

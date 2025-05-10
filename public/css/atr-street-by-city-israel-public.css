@@ -1,4 +1,48 @@
-/**
- * All of the CSS for your public-facing functionality should be
- * included in this file.
- */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  position: relative; /* Add this line */
+}
+
+.city-selection-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
+}
+
+datalist {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f9f9f9;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+input[list] {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+option {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+option:hover {
+  background-color: #e0e0e0;
+}
+

@@ -89,7 +89,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
         add_action('admin_init', array($this, 'init'));
 
         // Add settings page to menu
-        add_action('admin_menu', array($this, 'add_menu_item'));
+        add_action('admin_menu', array($this, 'atr_sbci_add_menu_item'));
 
         // Add settings link to plugins page
         add_filter('plugin_action_links_' . plugin_basename($this->file), array($this, 'add_settings_link'));
@@ -101,25 +101,25 @@ class Atr_Street_By_City_Israel_Admin_Settings
      */
     public function init()
     {
-        $this->settings = $this->settings_fields();
-        $this->options = $this->get_options();
-        $this->register_settings();
+        $this->settings = $this->atr_sbci_settings_fields();
+        $this->options = $this->atr_sbci_get_options();
+        $this->atr_sbci_register_settings();
     }
 
     /**
      * Add settings page to admin menu
      * @return void
      */
-    public function add_menu_item()
+    public function atr_sbci_add_menu_item()
     {
-        $page = add_options_page(__('ATR Street By City Israel', 'atr-street-by-city-israel'), __('ATR Street By City Israel', 'atr-street-by-city-israel'), 'manage_options', $this->plugin_name, array($this, 'settings_page'));
+        $page = add_options_page(__('ATR Street By City Israel', 'atr-street-by-city-israel'), __('ATR Street By City Israel', 'atr-street-by-city-israel'), 'manage_options', $this->plugin_name, array($this, 'atr_sbci_settings_page'));
     }
     /**
      * Add settings link to plugin list table
      * @param  array $links Existing links
      * @return array 		Modified links
      */
-    public function add_action_links($links)
+    public function atr_sbci_add_action_links($links)
     {
         $links[] = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=' . $this->plugin_name)) . '">' . __('Settings', 'atr-street-by-city-israel') . '</a>';
         $links[] = '<a href="http://atarimtr.co.il" target="_blank">' . __('More plugins by Yehuda Tiram', 'atr-street-by-city-israel') . '</a>';
@@ -130,7 +130,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
      * Build settings fields
      * @return array Fields to be displayed on settings page
      */
-    private function settings_fields()
+    private function atr_sbci_settings_fields()
     {
         $settings['easy'] = array(
             'title'                    => __('General', 'atr-street-by-city-israel'),
@@ -171,21 +171,11 @@ class Atr_Street_By_City_Israel_Admin_Settings
         return $settings;
     }
 
-    public function check_wp_version($ver_num)
-    {
-        $wp_version = get_bloginfo('version');
-        if ($wp_version < $ver_num) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      * Options getter
      * @return array Options, either saved or default ones.
      */
-    public function get_options()
+    public function atr_sbci_get_options()
     {
         $options = get_option($this->plugin_name);
         if (!$options && is_array($this->settings)) {
@@ -217,7 +207,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
      * Register plugin settings
      * @return void
      */
-    public function register_settings()
+    public function atr_sbci_register_settings()
     {
         if (is_array($this->settings)) {
 
@@ -226,18 +216,18 @@ class Atr_Street_By_City_Israel_Admin_Settings
             foreach ($this->settings as $section => $data) {
 
                 // Add section to page
-                add_settings_section($section, $data['title'], array($this, 'settings_section'), $this->plugin_slug);
+                add_settings_section($section, $data['title'], array($this, 'atr_sbci_settings_section'), $this->plugin_slug);
 
                 foreach ($data['fields'] as $field) {
 
                     // Add field to page
-                    add_settings_field($field['id'], $field['label'], array($this, 'display_field'), $this->plugin_slug, $section, array('field' => $field));
+                    add_settings_field($field['id'], $field['label'], array($this, 'atr_sbci_display_field'), $this->plugin_slug, $section, array('field' => $field));
                 }
             }
         }
     }
 
-    public function settings_section($section)
+    public function atr_sbci_settings_section($section)
     {
         $html = '<p> ' . $this->settings[$section['id']]['description'] . '</p>' . "\n";
         //echo esc_html($html);
@@ -249,7 +239,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
      * @param  array $args Field data
      * @return void
      */
-    public function display_field($args)
+    public function atr_sbci_display_field($args)
     {
 
         $field = $args['field'];
@@ -313,7 +303,7 @@ class Atr_Street_By_City_Israel_Admin_Settings
      * Load settings page content
      * @return void
      */
-    public function settings_page()
+    public function atr_sbci_settings_page()
     {
         // Build page HTML output
         // If you don't need tabbed navigation just strip out everything between the <!-- Tab navigation --> tags.
@@ -380,27 +370,5 @@ class Atr_Street_By_City_Israel_Admin_Settings
             });
         </script>
 <?php
-    }
-
-    public function get_post_types()
-    {
-        $args = array(
-            'public'   => true,
-            '_builtin' => false,
-        );
-
-        $output = 'names'; // names or objects, note names is the default
-        $operator = 'and'; // 'and' or 'or'
-
-        $post_types = get_post_types($args, $output, $operator);
-
-        if (!empty($post_types)) {
-            $post_types_arr = [];
-            //$post_types_arr[$item] = "";
-            foreach ($post_types as $item) {
-                $post_types_arr[$item] = "$item";
-            }
-        }
-        return $post_types_arr;
     }
 }

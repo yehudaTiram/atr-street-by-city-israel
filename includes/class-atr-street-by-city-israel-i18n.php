@@ -32,7 +32,7 @@ class Atr_Street_By_City_Israel_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function atr_sbci_load_plugin_textdomain() {
 
 		load_plugin_textdomain(
 			'atr-street-by-city-israel',

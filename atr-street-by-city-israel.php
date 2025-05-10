@@ -47,7 +47,7 @@ define( 'ATR_STREET_BY_CITY_ISRAEL_VERSION', '1.0.0' );
  */
 function activate_atr_street_by_city_israel() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-atr-street-by-city-israel-activator.php';
-	Atr_Street_By_City_Israel_Activator::activate();
+	Atr_Street_By_City_Israel_Activator::atr_sbci_activate();
 }
 
 /**
@@ -56,7 +56,7 @@ function activate_atr_street_by_city_israel() {
  */
 function deactivate_atr_street_by_city_israel() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-atr-street-by-city-israel-deactivator.php';
-	Atr_Street_By_City_Israel_Deactivator::deactivate();
+	Atr_Street_By_City_Israel_Deactivator::atr_sbci_deactivate();
 }
 
 register_activation_hook( __FILE__, 'activate_atr_street_by_city_israel' );

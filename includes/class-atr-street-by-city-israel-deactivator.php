@@ -29,7 +29,7 @@ class Atr_Street_By_City_Israel_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
+	public static function atr_sbci_deactivate() {
 
 	}
 
