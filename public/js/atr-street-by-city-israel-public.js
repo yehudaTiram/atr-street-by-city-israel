@@ -20,11 +20,10 @@ const STREET_NAME_KEY = "שם_רחוב";
 const CITIES_DATA_ID = "cities-data";
 const STREETS_DATA_ID = "streets-data";
 
-
 // Setup input lists
 // Add list attributes to both city-choice and streets-data fields
 function setupInputLists(citiesInput, streetsInput) {
-  if (!citiesInput ) {
+  if (!citiesInput) {
     return;
   }
   citiesInput.setAttribute("list", "cities-data");
@@ -39,17 +38,11 @@ function setupInputLists(citiesInput, streetsInput) {
  */
 function createListContainers(citiesInput, streetsInput) {
   // Create datalist elements for cities
-  const citySelection = createElement("div", {
-    id: "city-selection",
-    class: "form-field",
-  });
   const datalistElementCities = createElement(
     "datalist",
     { id: CITIES_DATA_ID },
     '<option value="">טוען רשימת ערים...</option>'
   );
-  // citySelection.appendChild(datalistElementCities);
-  // citiesInput.appendChild(citySelection);
   citiesInput.appendChild(datalistElementCities);
 
   if (!streetsInput) {
@@ -89,7 +82,6 @@ function populateCitiesPopulateStreetsOnChange(citiesInput) {
    * (assuming there aren't more than 32,000 streets in any city)
    */
   citiesInput.addEventListener("change", (event) => {
-    
     populateDataList(
       STREETS_DATA_ID,
       STREETS_RESOURCE_ID,
@@ -98,6 +90,20 @@ function populateCitiesPopulateStreetsOnChange(citiesInput) {
       32000
     );
   });
+
+  const datalistElement = document.getElementById(CITIES_DATA_ID);
+  citiesInput.onfocus = function () {
+    if (datalistElement) {
+      datalistElement.style.display = "block";
+    }
+  };
+  for (let option of datalistElement.options) {
+    option.onclick = function () {
+      citiesInput.value = option.value;
+      datalistElement.style.display = "none";
+      citiesInput.style.borderRadius = "5px";
+    };
+  }
 }
 
 /**
@@ -120,9 +126,6 @@ function createElement(tagName, attributes = {}, content = "") {
  * Fetch data, parse, and populate Datalist
  */
 async function populateDataList(id, resourceId, field_name, query = {}, limit) {
-  
-  
-
   const datalistElement = document.getElementById(id);
   if (!datalistElement) {
     console.log(
@@ -150,9 +153,7 @@ async function populateDataList(id, resourceId, field_name, query = {}, limit) {
     const data = await response.json();
     const html = await parseResponse(data?.result?.records, field_name);
     datalistElement.innerHTML = html;
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 }
 
 /**
@@ -164,6 +165,6 @@ function parseResponse(records = [], field_name) {
     records
       .map((record) => `<option value="${record[field_name].trim()}">`)
       .join("\n") || "";
-  
+
   return Promise.resolve(parsed);
 }

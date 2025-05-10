@@ -73,7 +73,7 @@ class Atr_Street_By_City_Israel_Public
 				// input elements
 				const citiesInput = document.getElementById("<?php echo esc_js($inputs_structure["city_input_id"]); ?>");
 				const streetsInput = document.getElementById("<?php echo esc_js($inputs_structure["street_input_id"]); ?>");
-			
+
 				if (!streetsInput) {
 					if (!citiesInput) {
 						return;
