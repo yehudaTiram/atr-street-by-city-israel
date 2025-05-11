@@ -78,7 +78,7 @@ class Atr_Street_By_City_Israel {
 		if ( defined( 'ATR_STREET_BY_CITY_ISRAEL_VERSION' ) ) {
 			$this->version = ATR_STREET_BY_CITY_ISRAEL_VERSION;
 		} else {
-			$this->version = '1.0.0';
+			$this->version = '1.0.1';
 		}
 		$this->plugin_name = 'atr-street-by-city-israel';
 
