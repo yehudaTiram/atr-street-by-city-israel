@@ -1,4 +1,4 @@
-# [Download the last stable version here](https://github.com/yehudaTiram/atr-street-by-city-israel/releases/tag/v1.0.1) 
+# Download the last stable version here https://github.com/yehudaTiram/atr-street-by-city-israel/releases/tag/v1.0.1
 
 === ATR Street By City Israel ===
 Contributors: yehudaT
